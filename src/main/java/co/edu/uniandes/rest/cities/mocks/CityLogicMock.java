@@ -2,7 +2,7 @@ package co.edu.uniandes.rest.cities.mocks;
 
 /**
  * Mock del recurso Ciudades (Mock del servicio REST)
- * @author Asistente
+ * @citi Asistente
  */
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,8 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 
 
 import co.edu.uniandes.rest.cities.dtos.CityDTO;
@@ -19,7 +21,8 @@ import co.edu.uniandes.rest.cities.exceptions.CityLogicException;
  * CityLogicMock
  * Mock del recurso Ciudades (Mock del servicio REST)
  */
-
+@Named
+@ApplicationScoped
 public class CityLogicMock {
 	
 	// objeto para presentar logs de las operaciones
@@ -63,7 +66,27 @@ public class CityLogicMock {
     	return cities;
     }
 
- 
+    /**
+     * Obtiene una ciudad
+     * @param id identificador de la ciudad
+     * @return ciudad encontrada
+     * @throws CityLogicException cuando la ciudad no existe
+     */
+    public CityDTO getCity(Long id) throws CityLogicException {
+    	logger.info("recibiendo solicitud de ciudad con id " + id);
+    	
+    	// busca la ciudad con el id suministrado
+        for (CityDTO city : cities) {
+            if (Objects.equals(city.getId(), id)){
+            	logger.info("retornando ciudad " + city);
+                return city;
+            }
+        }
+        
+        // si no encuentra la ciudad
+        logger.severe("No existe ciudad con ese id");
+        throw new CityLogicException("No existe ciudad con ese id");
+    }
 
     /**
      * Agrega una ciudad a la lista.
@@ -105,5 +128,56 @@ public class CityLogicMock {
         return newCity;
     }
 
-   
+    /**
+     * Actualiza los datos de una ciudad
+     * @param id identificador de la ciudad a modificar
+     * @param city ciudad a modificar
+     * @return datos de la ciudad modificada 
+     * @throws CityLogicException cuando no existe una ciudad con el id suministrado
+     */
+    public CityDTO updateCity(Long id, CityDTO updatedCity) throws CityLogicException {
+    	logger.info("recibiendo solictud de modificar ciudad " + updatedCity);
+    	
+    	// busca la ciudad con el id suministrado
+        for (CityDTO city : cities) {
+            if (Objects.equals(city.getId(), id)) {
+            	
+            	// modifica la ciudad
+            	city.setId(updatedCity.getId());
+                city.setName(updatedCity.getName());
+                
+                // retorna la ciudad modificada
+            	logger.info("Modificando ciudad " + city);
+                return city;
+            }
+        }
+        
+        // no encontró la ciudad con ese id ?
+        logger.severe("No existe una ciudad con ese id");
+        throw new CityLogicException("No existe una ciudad con ese id");
+    }
+
+    /**
+     * Elimina los datos de una ciudad
+     * @param id identificador de la ciudad a eliminar
+     * @throws CityLogicException cuando no existe una ciudad con el id suministrado
+     */
+    public void deleteCity(Long id) throws CityLogicException {
+    	logger.info("recibiendo solictud de eliminar ciudad con id " + id);
+    	
+    	// busca la ciudad con el id suministrado
+        for (CityDTO city : cities) {
+            if (Objects.equals(city.getId(), id)) {
+            	
+            	// elimina la ciudad
+            	logger.info("eliminando ciudad " + city);
+                cities.remove(city);
+                return;
+            }
+        }
+
+        // no encontró la ciudad con ese id ?
+        logger.severe("No existe una ciudad con ese id");
+        throw new CityLogicException("No existe una ciudad con ese id");
+    }
 }
