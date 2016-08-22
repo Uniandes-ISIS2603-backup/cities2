@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="mainApp">
     <head>
-        <title>Start Page</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Cities</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="bower_components/restangular/dist/restangular.js"></script>
+        <script src="bower_components/angular-messages/angular-messages.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+        <script src="src/app.js" type="text/javascript"></script>  
+        <script src="src/modules/cities/cities.mod.js" type="text/javascript"></script>
+        <script src="src/modules/cities/cities.ctrl.js" type="text/javascript"></script>
+
+
+
     </head>
-    <body>
-        <h1>Ejemplo Simple REST</h1>
+    <body style="padding-top: 20px;">
+        <div class="container-fluid" class="col-md-12">   
+            <h3>Ejemplo Cities</h3>
+            <ul class="nav nav-tabs">            
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Cities
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a ui-sref="cityCreate">Create</a></li>    
+                         <li><a ui-sref="citiesList">List</a></li>       
+                    </ul>
+                </li>        
+            </ul>
+            <div ui-view="mainView">
+            </div>
+        </div>
     </body>
 </html>

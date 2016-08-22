@@ -7,7 +7,7 @@ package co.edu.uniandes.rest.cities.dtos;
 
 /**
  * Objeto de transferencia de datos de Ciudades.
- * @author Asistente
+ * @citi Asistente
  */
 public class CityDTO {
     private Long id;
