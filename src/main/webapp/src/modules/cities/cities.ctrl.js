@@ -8,7 +8,7 @@
             // carga las ciudades
             $http.get(context).then(function(response){
                 $scope.records = response.data;    
-            });
+            }, responseError);
 
             // el controlador recibió un cityId ??
             // revisa los parámetros (ver el :cityId en la definición de la ruta)
@@ -22,7 +22,6 @@
                         // $http.get es una promesa
                         // cuando llegue el dato, actualice currentRecord
                         $scope.currentRecord = response.data;
-                        console.log($scope.currentRecord.id + " " + $scope.currentRecord.name)
                     }, responseError);
 
             // el controlador no recibió un cityId
@@ -33,7 +32,7 @@
                     id: undefined /*Tipo Long. El valor se asigna en el backend*/,
                     name: '' /*Tipo String*/,
                 };
-                $scope.currentRecord = {};
+              
                 $scope.alerts = [];
             }
 
@@ -41,18 +40,18 @@
             this.saveRecord = function (id) {
                 currentRecord = $scope.currentRecord;
                 
-                // si el id es null, es un registro nuevo
+                // si el id es null, es un registro nuevo, entonces lo crea
                 if (id == null) {
 
                     // ejecuta POST en el recurso REST
                     return $http.post(context, currentRecord)
                         .then(function () {
-                            // $http.put es una promesa
+                            // $http.post es una promesa
                             // cuando termine bien, cambie de estado
                             $state.go('citiesList');
                         }, responseError);
                         
-                // si el id no es null, es un registro existente
+                // si el id no es null, es un registro existente entonces lo actualiza
                 } else {
                     
                     // ejecuta PUT en el recurso REST
@@ -65,10 +64,10 @@
                 };
             };
 
-       //     this.fetchRecords();
+
 
             // -----------------------------------------------------------------
-            // Funciones para manejra lo smensajes en la aplicación
+            // Funciones para manejra los mensajes en la aplicación
 
 
             //Alertas
